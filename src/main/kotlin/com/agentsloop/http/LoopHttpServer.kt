@@ -16,7 +16,7 @@ class LoopHttpServer(
             while (!server.isClosed) {
                 val socket = server.accept()
                 thread(name = "agentloops-http-client", isDaemon = true) {
-                    socket.use(::handle)
+                    socket.use { handle(it) }
                 }
             }
         }
