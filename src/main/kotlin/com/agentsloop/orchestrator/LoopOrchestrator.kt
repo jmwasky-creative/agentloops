@@ -64,7 +64,7 @@ class LoopOrchestrator(
                 )
             }
             nextState
-        }.projects.values.maxBy { it.createdAt }
+        }.projects.values.maxByOrNull { it.createdAt } ?: error("Failed to import project")
 
     fun confirmPlan(projectId: String? = null): Int =
         store.update { state ->
@@ -147,7 +147,7 @@ class LoopOrchestrator(
                 agentId = task.assignedWorker,
                 payload = mapOf("approval_id" to approval.id, "kind" to kind, "message" to message),
             )
-        }.approvals.values.maxBy { it.createdAt }
+        }.approvals.values.maxByOrNull { it.createdAt } ?: error("Failed to create approval")
 
     fun decideApproval(approvalId: String, approve: Boolean, decision: String): Approval =
         store.update { state ->
