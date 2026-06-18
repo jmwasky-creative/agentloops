@@ -21,6 +21,7 @@ jobs:
       - name: Run tests
         run: |
           set -o pipefail
+          mkdir -p build
           gradle test --no-daemon --stacktrace --console=plain 2>&1 | tee build/gradle-test.log
       - name: Print failure diagnostics
         if: failure()

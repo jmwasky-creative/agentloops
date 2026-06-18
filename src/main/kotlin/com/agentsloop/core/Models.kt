@@ -5,7 +5,7 @@ import java.util.UUID
 
 fun nowIso(): String = Instant.now().toString()
 
-fun newId(prefix: String): String = "$prefix_${UUID.randomUUID().toString().replace("-", "").take(12)}"
+fun newId(prefix: String): String = "${prefix}_${UUID.randomUUID().toString().replace("-", "").take(12)}"
 
 enum class TaskStatus(val wire: String) {
     BACKLOG("backlog"),
