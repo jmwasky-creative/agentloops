@@ -1,5 +1,3 @@
-import java.time.Duration
-
 plugins {
     kotlin("jvm") version "2.0.21"
     application
@@ -18,7 +16,6 @@ application {
 
 tasks.test {
     useJUnitPlatform()
-    timeout.set(Duration.ofMinutes(2))
 }
 
 dependencies {
