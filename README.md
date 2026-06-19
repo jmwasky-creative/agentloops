@@ -14,6 +14,31 @@ gradle run --args="serve --port 8787"
 
 Default state lives at `.agentsloop/state.json`.
 
+## Docker Compose
+
+Build and start the board server:
+
+```bash
+docker compose up --build
+```
+
+The board is available at http://localhost:8787. Compose stores runtime state in
+the local `.agentsloop/` directory through the `/data` volume mount.
+
+Seed the bundled example plan and run the mock worker:
+
+```bash
+docker compose run --rm agentloops import-plan examples/claude-plan/tasks.json --state /data/state.json
+docker compose run --rm agentloops confirm-plan --state /data/state.json
+docker compose run --rm agentloops run-ready --worker mock --state /data/state.json
+```
+
+Run any other CLI command by replacing the command after `agentloops`:
+
+```bash
+docker compose run --rm agentloops board --state /data/state.json
+```
+
 ## Tests
 
 The MVP is covered with Kotlin tests for the loop acceptance criteria:
