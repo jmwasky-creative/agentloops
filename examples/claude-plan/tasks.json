@@ -1,0 +1,33 @@
+{
+  "title": "Sample Loop Project",
+  "requirements": "# Requirements\n\nBuild a tiny notes app with local persistence.",
+  "design": "# Design\n\nUse local storage and provide reviewable implementation evidence.",
+  "tasks": [
+    {
+      "id": "task_plan_notes_ui",
+      "title": "Design notes UI",
+      "role": "architect",
+      "description": "Define the notes UI structure and acceptance criteria.",
+      "assigned_worker": "mock",
+      "acceptance_criteria": ["UI states are named", "Persistence behavior is specified"]
+    },
+    {
+      "id": "task_build_notes_ui",
+      "title": "Build notes UI",
+      "role": "coder",
+      "description": "Implement the notes UI in an isolated workspace.",
+      "dependencies": ["task_plan_notes_ui"],
+      "assigned_worker": "mock",
+      "acceptance_criteria": ["Files are written", "Artifact summary is available"]
+    },
+    {
+      "id": "task_review_notes_ui",
+      "title": "Review notes UI",
+      "role": "reviewer",
+      "description": "Review implementation evidence and decide whether it can be marked done.",
+      "dependencies": ["task_build_notes_ui"],
+      "assigned_worker": "mock",
+      "acceptance_criteria": ["Review notes exist", "No automatic done transition"]
+    }
+  ]
+}
