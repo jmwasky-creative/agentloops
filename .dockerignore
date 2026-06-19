@@ -1,0 +1,8 @@
+.agentsloop/
+.git/
+.gradle/
+.kotlin/
+build/
+out/
+*.iml
+.DS_Store

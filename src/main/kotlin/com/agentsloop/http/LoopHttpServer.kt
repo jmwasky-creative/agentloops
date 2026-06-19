@@ -9,9 +9,10 @@ import kotlin.concurrent.thread
 class LoopHttpServer(
     private val orchestrator: LoopOrchestrator,
     private val port: Int,
+    private val host: String = "127.0.0.1",
 ) {
     fun start() {
-        val server = ServerSocket(port, 50, InetAddress.getByName("127.0.0.1"))
+        val server = ServerSocket(port, 50, InetAddress.getByName(host))
         thread(name = "agentloops-http-$port", isDaemon = false) {
             while (!server.isClosed) {
                 val socket = server.accept()
@@ -20,7 +21,7 @@ class LoopHttpServer(
                 }
             }
         }
-        println("AgentLoops board running at http://127.0.0.1:$port")
+        println("AgentLoops board running at http://$host:$port")
     }
 
     private fun handle(socket: Socket) {
@@ -38,13 +39,14 @@ class LoopHttpServer(
             body = BoardRenderer.html(orchestrator.state())
         }
         val bytes = body.toByteArray(Charsets.UTF_8)
-        val header = """
-            HTTP/1.1 200 OK
-            Content-Type: $contentType
-            Content-Length: ${bytes.size}
-            Connection: close
-
-        """.trimIndent().replace("\n", "\r\n")
+        val header = listOf(
+            "HTTP/1.1 200 OK",
+            "Content-Type: $contentType",
+            "Content-Length: ${bytes.size}",
+            "Connection: close",
+            "",
+            "",
+        ).joinToString("\r\n")
         socket.getOutputStream().use { out ->
             out.write(header.toByteArray(Charsets.UTF_8))
             out.write(bytes)

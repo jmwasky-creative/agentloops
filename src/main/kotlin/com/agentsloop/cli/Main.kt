@@ -38,7 +38,8 @@ fun main(args: Array<String>) {
         "board" -> println(BoardRenderer.text(orchestrator.state()))
         "serve" -> {
             val port = parsed.option("--port")?.toIntOrNull() ?: 8787
-            LoopHttpServer(orchestrator, port).start()
+            val host = parsed.option("--host") ?: "127.0.0.1"
+            LoopHttpServer(orchestrator, port, host).start()
             Thread.currentThread().join()
         }
         "ingest-spool" -> {
@@ -87,7 +88,7 @@ private fun usage() {
           confirm-plan [--project id] [--state path]
           run-ready [--worker mock] [--state path]
           board [--state path]
-          serve [--port 8787] [--state path]
+          serve [--host 127.0.0.1] [--port 8787] [--state path]
           ingest-spool [--spool path] [--state path]
           approval --task taskId --kind shell --message text [--state path]
           approve <approvalId> [--decision text] [--state path]
