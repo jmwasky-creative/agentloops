@@ -16,16 +16,20 @@ Default state lives at `.agentsloop/state.json`.
 
 ## Docker Compose
 
+The compose setup runs the board server in a container and mounts
+`.agentsloop/` into `/data` so the state survives container restarts.
+
 Build and start the board server:
 
 ```bash
 docker compose up --build
 ```
 
-The board is available at http://localhost:8787. Compose stores runtime state in
-the local `.agentsloop/` directory through the `/data` volume mount.
+The board is available at http://localhost:8787. The container listens on
+`0.0.0.0:8787` so the port mapping works from your host browser.
 
-Seed the bundled example plan and run the mock worker:
+Import the bundled example plan, confirm it, and run the mock worker against
+the same mounted state:
 
 ```bash
 docker compose run --rm agentloops import-plan examples/claude-plan/tasks.json --state /data/state.json
@@ -38,6 +42,15 @@ Run any other CLI command by replacing the command after `agentloops`:
 ```bash
 docker compose run --rm agentloops board --state /data/state.json
 ```
+
+Stop the board when you're done:
+
+```bash
+docker compose down
+```
+
+To reset the local state, remove `.agentsloop/state.json` before starting the
+stack again.
 
 ## Tests
 
